@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cognitive Stratification, Genomic AI, and the Post-Equity Society</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #0a0a0f;
+    color: #e8e4d9;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  #slideshow {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 100px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  .slide.exit {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  /* Title slide */
+  .slide-title {
+    background: radial-gradient(ellipse at 30% 40%, #1a1a2e 0%, #0a0a0f 70%);
+    text-align: center;
+  }
+
+  .slide-title .dossier-label {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #8b6914;
+    margin-bottom: 32px;
+    font-family: 'Courier New', monospace;
+  }
+
+  .slide-title h1 {
+    font-size: 2.8rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #f0ead6;
+    max-width: 800px;
+    margin-bottom: 28px;
+  }
+
+  .slide-title h1 em {
+    color: #c9a84c;
+    font-style: normal;
+  }
+
+  .slide-title .subtitle {
+    font-size: 0.95rem;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Section header slides */
+  .slide-section {
+    background: linear-gradient(135deg, #0d0d1a 0%, #0a0a0f 100%);
+    text-align: center;
+  }
+
+  .slide-section .part-number {
+    font-size: 10px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #c9a84c;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 20px;
+  }
+
+  .slide-section h2 {
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: #f0ead6;
+    max-width: 700px;
+    line-height: 1.3;
+  }
+
+  .slide-section .accent-line {
+    width: 60px;
+    height: 2px;
+    background: #c9a84c;
+    margin: 24px auto;
+  }
+
+  /* Content slides */
+  .slide-content {
+    background: #0a0a0f;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .slide-content .slide-header {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c9a84c;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 12px;
+  }
+
+  .slide-content h3 {
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: #f0ead6;
+    margin-bottom: 28px;
+    line-height: 1.3;
+  }
+
+  .slide-content ul {
+    list-style: none;
+    max-width: 820px;
+  }
+
+  .slide-content ul li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #c8c4b8;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .slide-content ul li:last-child {
+    border-bottom: none;
+  }
+
+  .slide-content ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #c9a84c;
+    font-size: 0.8rem;
+    top: 12px;
+  }
+
+  .slide-content ul li strong {
+    color: #f0ead6;
+    font-weight: 600;
+  }
+
+  .math {
+    font-family: 'Courier New', monospace;
+    color: #c9a84c;
+    font-size: 0.95em;
+    background: #111118;
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  /* Stat slides */
+  .slide-stat {
+    background: radial-gradient(ellipse at 60% 50%, #12121f 0%, #0a0a0f 80%);
+    text-align: center;
+  }
+
+  .slide-stat .big-number {
+    font-size: 6rem;
+    font-weight: 300;
+    color: #c9a84c;
+    font-family: 'Courier New', monospace;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .slide-stat .big-label {
+    font-size: 1.1rem;
+    color: #888;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    font-family: 'Courier New', monospace;
+  }
+
+  .slide-stat .stat-desc {
+    font-size: 1.05rem;
+    color: #c8c4b8;
+    max-width: 580px;
+    line-height: 1.7;
+  }
+
+  /* Quote slides */
+  .slide-quote {
+    background: linear-gradient(135deg, #0f0f1a 0%, #0a0a0f 100%);
+    text-align: center;
+  }
+
+  .slide-quote blockquote {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: #e8e4d9;
+    max-width: 750px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .slide-quote blockquote::before {
+    content: '"';
+    font-size: 5rem;
+    color: #c9a84c;
+    opacity: 0.3;
+    position: absolute;
+    top: -30px;
+    left: -20px;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  .slide-quote .attribution {
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    color: #c9a84c;
+    text-transform: uppercase;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Two-column */
+  .slide-twocol {
+    background: #0a0a0f;
+  }
+
+  .slide-twocol .col-container {
+    display: flex;
+    gap: 60px;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .slide-twocol .col {
+    flex: 1;
+  }
+
+  .slide-twocol .col-title {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #c9a84c;
+    text-transform: uppercase;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #c9a84c44;
+  }
+
+  .slide-twocol .col p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #c8c4b8;
+    margin-bottom: 12px;
+  }
+
+  .slide-twocol .col p strong {
+    color: #f0ead6;
+  }
+
+  .slide-twocol h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #f0ead6;
+    margin-bottom: 28px;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  /* Math proof slide */
+  .slide-proof {
+    background: #0a0a0f;
+    text-align: center;
+  }
+
+  .slide-proof h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #f0ead6;
+    margin-bottom: 36px;
+  }
+
+  .proof-box {
+    background: #111118;
+    border: 1px solid #2a2a3a;
+    border-left: 3px solid #c9a84c;
+    padding: 32px 48px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    line-height: 2.2;
+    color: #e8e4d9;
+    text-align: left;
+    max-width: 620px;
+    margin-bottom: 24px;
+  }
+
+  .proof-box .proof-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .proof-box .proof-result {
+    color: #c9a84c;
+    font-weight: bold;
+    border-top: 1px solid #3a3a4a;
+    padding-top: 12px;
+    margin-top: 8px;
+  }
+
+  .proof-conclusion {
+    font-size: 0.9rem;
+    color: #888;
+    letter-spacing: 1px;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* Conclusion */
+  .slide-conclusion {
+    background: radial-gradient(ellipse at 50% 50%, #14140a 0%, #0a0a0f 70%);
+    text-align: center;
+  }
+
+  .slide-conclusion h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #f0ead6;
+    max-width: 750px;
+    line-height: 1.4;
+    margin-bottom: 32px;
+  }
+
+  .slide-conclusion .thesis-points {
+    list-style: none;
+    text-align: left;
+    max-width: 640px;
+  }
+
+  .slide-conclusion .thesis-points li {
+    padding: 8px 0 8px 20px;
+    position: relative;
+    font-size: 0.95rem;
+    color: #c8c4b8;
+    line-height: 1.6;
+  }
+
+  .slide-conclusion .thesis-points li::before {
+    content: '○';
+    position: absolute;
+    left: 0;
+    color: #c9a84c;
+    font-size: 0.7rem;
+    top: 11px;
+  }
+
+  /* Image + text slide */
+  .slide-imgtext {
+    background: #0c0c12;
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+    padding: 48px 64px;
+  }
+
+  .slide-imgtext .img-panel {
+    flex: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .slide-imgtext .img-panel img {
+    width: 100%;
+    max-width: 680px;
+    border: 1px solid #222;
+    border-radius: 4px;
+  }
+
+  .slide-imgtext .img-caption {
+    font-size: 0.7rem;
+    color: #444;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .slide-imgtext .text-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .slide-imgtext .text-panel .slide-header {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c9a84c;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 10px;
+  }
+
+  .slide-imgtext .text-panel h3 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #f0ead6;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .slide-imgtext .text-panel ul {
+    list-style: none;
+  }
+
+  .slide-imgtext .text-panel ul li {
+    padding: 8px 0 8px 20px;
+    position: relative;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #c8c4b8;
+    border-bottom: 1px solid #111;
+  }
+
+  .slide-imgtext .text-panel ul li:last-child { border-bottom: none; }
+
+  .slide-imgtext .text-panel ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #c9a84c;
+    font-size: 0.75rem;
+    top: 10px;
+  }
+
+  .slide-imgtext .text-panel ul li strong { color: #f0ead6; }
+
+  .red { color: #ff6666; }
+
+  /* References slide */
+  .slide-refs {
+    background: #0a0a0f;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 44px 64px;
+  }
+
+  .refs-header {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #e8e4d9;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 20px;
+    width: 100%;
+    border-bottom: 1px solid #c9a84c44;
+    padding-bottom: 10px;
+  }
+
+  .refs-columns {
+    display: flex;
+    gap: 48px;
+    width: 100%;
+  }
+
+  .refs-col {
+    flex: 1;
+  }
+
+  .refs-section {
+    font-size: 9.5px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c9a84c;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #3a3020;
+  }
+
+  .refs-col ul {
+    list-style: none;
+    margin-bottom: 4px;
+  }
+
+  .refs-col ul li {
+    font-size: 0.72rem;
+    line-height: 1.9;
+    color: #b0aca0;
+    font-family: 'Courier New', monospace;
+    padding-left: 10px;
+    position: relative;
+  }
+
+  .refs-col ul li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: #c9a84c;
+  }
+
+  .refs-col ul li em {
+    color: #d8d4c8;
+    font-style: italic;
+  }
+
+  .refs-col ul li a {
+    color: #c9a84c;
+    text-decoration: none;
+    margin-left: 2px;
+  }
+
+  .refs-col ul li a:hover {
+    color: #f0e090;
+    text-decoration: underline;
+  }
+
+  .sources {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid #1c1c26;
+    font-size: 0.7rem;
+    color: #4a4a5a;
+    font-family: 'Courier New', monospace;
+    line-height: 2;
+    width: 100%;
+    max-width: 820px;
+  }
+
+  .sources a {
+    color: #6a5828;
+    text-decoration: none;
+    margin-right: 16px;
+    white-space: nowrap;
+  }
+
+  .sources a:hover {
+    color: #c9a84c;
+    text-decoration: underline;
+  }
+
+  .slide-proof .sources {
+    max-width: 620px;
+    text-align: left;
+    margin-top: 14px;
+  }
+
+  .slide-stat .sources {
+    max-width: 580px;
+    text-align: center;
+    margin-top: 14px;
+  }
+
+  /* Navigation */
+  #nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: linear-gradient(transparent, #0a0a0f);
+    z-index: 100;
+  }
+
+  #nav button {
+    background: none;
+    border: 1px solid #333;
+    color: #888;
+    padding: 8px 24px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  #nav button:hover {
+    border-color: #c9a84c;
+    color: #c9a84c;
+  }
+
+  #nav button:disabled {
+    opacity: 0.2;
+    cursor: default;
+    border-color: #222;
+  }
+
+  #progress {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .progress-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #333;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .progress-dot.active {
+    background: #c9a84c;
+    width: 18px;
+    border-radius: 3px;
+  }
+
+  #slide-counter {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 1px;
+  }
+
+  /* Decorative corner */
+  .slide::after {
+    content: '';
+    position: absolute;
+    bottom: 56px;
+    right: 40px;
+    width: 40px;
+    height: 40px;
+    border-right: 1px solid #222;
+    border-bottom: 1px solid #222;
+    pointer-events: none;
+  }
+
+  .slide::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 40px;
+    width: 40px;
+    height: 40px;
+    border-left: 1px solid #222;
+    border-top: 1px solid #222;
+    pointer-events: none;
+  }
+
+  kbd {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #666;
+  }
+</style>
+</head>
+<body>
+<div id="slideshow">
+
+  <!-- SLIDE 0: Title -->
+  <div class="slide slide-title active">
+    <div class="dossier-label">Dossier &nbsp;·&nbsp; Restricted</div>
+    <h1>Cognitive Stratification,<br><em>Genomic AI</em>, and the<br>Post-Equity Society</h1>
+    <div class="accent-line" style="width:80px;height:2px;background:#c9a84c44;margin:28px auto;"></div>
+    <div class="subtitle">A Hereditarian Framework &nbsp;·&nbsp; After Richard Lynn &amp; Tatu Vanhanen</div>
+    <div style="margin-top:48px;font-size:11px;color:#333;font-family:'Courier New',monospace;">
+      Use <kbd>←</kbd> <kbd>→</kbd> or buttons below to navigate
+    </div>
+  </div>
+
+  <!-- SLIDE 1: Executive Summary -->
+  <div class="slide slide-content">
+    <div class="slide-header">Executive Summary</div>
+    <h3>The Core Thesis</h3>
+    <ul>
+      <li><strong>Biological realism supersedes constructivism.</strong> Extreme distributions of general cognitive ability (<span class="math">g</span>) dictate societal outcomes in ways that social engineering cannot alter.</li>
+      <li><strong>AI as objective arbiter.</strong> Machine learning optimised for accuracy — unconstrained by equity mandates — will validate the genetic basis of inter-group cognitive differences through GWAS and polygenic mapping.</li>
+      <li><strong>Equity is the inverse of fairness.</strong> True meritocracy allocates resources by aptitude; proportional representation by definition penalises high-performing groups to subsidise lower-performing ones.</li>
+      <li><strong>Price's Law governs civilisational output.</strong> The <span class="math">√N</span> elite (≈<span class="math">10⁻⁴</span> of the population) generate half of all societal value. Optimising for this stratum — not the median — is the rational strategy.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 2: Part 1 Header -->
+  <div class="slide slide-section">
+    <div class="part-number">Part I</div>
+    <h2>The Psychometric Baseline and Hereditarian Reality</h2>
+    <div class="accent-line"></div>
+  </div>
+
+  <!-- SLIDE 3: National IQ -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part I · 1.1</div>
+    <h3>The Validity of National IQ and Inter-Group Differences</h3>
+    <ul>
+      <li><strong>Lynn–Vanhanen correlation:</strong> National average IQ correlates with OECD PISA results at <span class="math">r &gt; 0.80</span> — among the highest predictive correlations in the social sciences.</li>
+      <li><strong>The 2-Sigma gap:</strong> Consistent ~2 standard deviation differences between geographic and racial population groups are replicated across independent testing regimes and decades.</li>
+      <li><strong>Convergent validity:</strong> Group differences appear not only in psychometric tests but in physiological proxies (reaction times) and real-world attainment metrics — ruling out simple test-design artefacts.</li>
+      <li><strong>East Asian baseline:</strong> East Asian populations consistently outperform European averages regardless of host country or socioeconomic context, demonstrating aptitude independent of specific cultural environment.</li>
+    </ul>
+    <div class="sources">Sources:
+      <a href="https://en.wikipedia.org/wiki/IQ_and_the_Wealth_of_Nations" target="_blank">Lynn &amp; Vanhanen — IQ and the Wealth of Nations (2002)</a>
+      <a href="https://www.oecd.org/pisa/" target="_blank">OECD PISA</a>
+      <a href="https://en.wikipedia.org/wiki/Richard_Lynn" target="_blank">Richard Lynn — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Adoption Studies -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part I · 1.2</div>
+    <h3>Transracial Adoption and the Failure of Environmentalism</h3>
+    <ul>
+      <li><strong>The adoptee control:</strong> Ethnic Chinese and Vietnamese children adopted into European households outperform not only African adoptees in identical environments but also their biological European foster siblings — controlling for socioeconomic inputs.</li>
+      <li><strong>Direction of causality:</strong> The data indicates genetic inheritance driving cognitive output, not environmental inputs modifying genetic ceilings. The environment adjusts expression within a genetically constrained range.</li>
+      <li><strong>Military recruit data:</strong> The historically documented &gt;20-point gap between Black and White US military recruits persists across cohorts despite massive equalisation of formal schooling, nutrition, and income — consistent with a substantial genetic floor.</li>
+      <li><strong>Logical constraint:</strong> High within-group heritability does not automatically prove inter-group heritability — but combined with adoption, twin, and physiological data, any purely environmental explanation becomes statistically improbable.</li>
+    </ul>
+    <div class="sources">Sources:
+      <a href="https://en.wikipedia.org/wiki/Minnesota_Transracial_Adoption_Study" target="_blank">Minnesota Transracial Adoption Study</a>
+      <a href="https://doi.org/10.1016/0191-8869(89)90216-6" target="_blank">Frydman &amp; Lynn — Korean adoptees in Belgium (1989)</a>
+      <a href="https://en.wikipedia.org/wiki/Heritability_of_IQ" target="_blank">Heritability of IQ — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Heritability Math -->
+  <div class="slide slide-proof">
+    <h3>The Heritability Constraint — Path Coefficient Analysis</h3>
+    <div class="proof-box">
+      <div class="proof-line"><span>Heritability (adults, replicated):</span><span>h = 0.80</span></div>
+      <div class="proof-line"><span>Genetic path coefficient:</span><span>h = 0.80</span></div>
+      <div class="proof-line"><span>Max environmental path coefficient:</span><span>√(1 − 0.80²) = 0.60</span></div>
+      <div class="proof-line proof-result"><span>∴ Genetic pathway necessarily dominates:</span><span>0.80 &gt; 0.60</span></div>
+    </div>
+    <p class="proof-conclusion">This is not an open empirical question. With h = 0.80, the mathematical upper bound on any environmental contribution to between-group differences is 0.60. The genetic contribution of 0.80 exceeds it by definition. Demanding identification of specific causal genes before accepting the inference is the same error as requiring knowledge of the Higgs mechanism before accepting Newtonian gravity.</p>
+    <div class="sources">Sources:
+      <a href="https://doi.org/10.1126/science.2218526" target="_blank">Bouchard et al. — Minnesota Twins Reared Apart, Science (1990)</a>
+      <a href="https://en.wikipedia.org/wiki/Minnesota_Twin_Family_Study" target="_blank">Minnesota Twin Family Study</a>
+      <a href="https://doi.org/10.1038/mp.2014.105" target="_blank">Plomin &amp; Deary — Genetics and intelligence, Mol. Psychiatry (2015)</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Part 2 Header -->
+  <div class="slide slide-section">
+    <div class="part-number">Part II</div>
+    <h2>The Epistemological Conflict and Institutional Regression</h2>
+    <div class="accent-line"></div>
+  </div>
+
+  <!-- SLIDE 7: Psychoanalysis → Constructivism lineage -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part II · 2.0</div>
+    <h3>The Intellectual Lineage: From Psychoanalysis to Constructivism</h3>
+    <ul>
+      <li><strong>The founding move — Freud, Adler, Fromm:</strong> Early 20th-century psychoanalysts replaced quantitative biological measurement with unfalsifiable interpretive frameworks. Behaviour was explained through invisible inner structures — the unconscious, repression, the inferiority complex — immune to empirical refutation. This methodological shift, not any specific finding, is the epistemic ancestor of all subsequent constructivism.</li>
+      <li><strong>Direct transmission — Frankfurt School:</strong> Fromm was a founding Frankfurt School member. Adorno and Horkheimer built <em>The Authoritarian Personality</em> (1950) explicitly on Freudian concepts — repression, projection, the anal character — applied to political psychology. The School inherited psychoanalysis's interpretive method and fused it with Marxist historical determinism.</li>
+      <li><strong>Second generation — Sartre, Foucault, Derrida:</strong> Sartre's existentialism drew directly on Freudian phenomenology; his later Marxist turn combined it with historical materialism. Foucault's entire architecture — "discourse," power/knowledge, the social construction of madness and sexuality — owes its epistemological structure to psychoanalytic hermeneutics. Derrida explicitly engaged Freud: <em>différance</em> mirrors the unconscious deferral of meaning; his concept of the supplement is structurally Freudian.</li>
+      <li><strong>Third generation — Habermas:</strong> Habermas's theory of communicative action extends the Frankfurt tradition, incorporating psychoanalytic emancipation from repression into a theory of distorted social communication — the most academically respectable but still lineage-bearing branch of the same tree.</li>
+    </ul>
+    <div class="sources">Sources:
+      <a href="https://en.wikipedia.org/wiki/Frankfurt_School" target="_blank">Frankfurt School — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/The_Authoritarian_Personality" target="_blank">Adorno et al. — The Authoritarian Personality (1950)</a>
+      <a href="https://en.wikipedia.org/wiki/Erich_Fromm" target="_blank">Erich Fromm — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Michel_Foucault" target="_blank">Michel Foucault — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Jacques_Derrida" target="_blank">Jacques Derrida — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Constructivism -->
+  <div class="slide slide-twocol">
+    <h3>Constructivism vs. Biological Realism</h3>
+    <div class="col-container">
+      <div class="col">
+        <div class="col-title">The Constructivist Position</div>
+        <p>Sociologists in the post-1970 tradition (Turkheimer, Flynn on environment) maintain that group differences are primarily environmental artefacts — products of poverty, stereotype threat, and biased test design.</p>
+        <p>Their position requires rejecting convergent evidence from adoption studies, twin research, reaction time data, and polygenic scores simultaneously.</p>
+        <p><strong>The "equity" framework</strong> emerged not from new evidence but from political imperatives, effectively institutionalising the blank-slate hypothesis as official academic orthodoxy.</p>
+      </div>
+      <div class="col">
+        <div class="col-title">The Biological Realist Position</div>
+        <p>Psychometricians (Lynn, Jensen, Rushton) treat cognitive aptitude as a measurable, heritable trait shaped by natural selection under different environmental pressures over evolutionary timescales.</p>
+        <p><strong>The Flynn Effect</strong> — rising IQ scores over generations — is real but represents nutritional and educational gains approaching genetic ceilings, not evidence of unlimited malleability.</p>
+        <p><strong>Narrowing of gaps</strong> post-1970 reflects convergence toward (not beyond) genetic baselines under improved environmental conditions.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Censorship -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part II · 2.2</div>
+    <h3>The Cancellation of Scientific Architects</h3>
+    <ul>
+      <li><strong>James Watson:</strong> Co-discoverer of the DNA double helix — the most consequential biological discovery of the 20th century — institutionally excommunicated for stating publicly that sub-Saharan African cognitive test performance reflects a biological reality rather than remediable deprivation.</li>
+      <li><strong>The pattern:</strong> Watson sits alongside Turing (prosecuted for homosexuality), Haber (retrospectively condemned for wartime chemistry), and Galileo as examples of institutional systems punishing empirical accuracy for social convenience.</li>
+      <li><strong>The cost:</strong> Society allocates vast resources — DEI infrastructure, affirmative intervention, remedial education — attempting to engineer away distributions that are substantially biological. The opportunity cost is immense.</li>
+      <li><strong>The selective enforcement:</strong> Watson had no personal misconduct — his cancellation was purely for speech. The contrast is instructive: Noam Chomsky visited Jeffrey Epstein repeatedly and defended him publicly; Lawrence Summers appeared in Epstein's flight logs. Neither faced institutional excommunication. The variable that predicts cancellation is not conduct — it is whether one's scientific statements contradict the approved ideological framework.</li>
+    </ul>
+    <div class="sources">Sources:
+      <a href="https://en.wikipedia.org/wiki/James_Watson" target="_blank">James Watson — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/The_Double_Helix" target="_blank">The Double Helix (1968)</a>
+      <a href="https://en.wikipedia.org/wiki/Jeffrey_Epstein" target="_blank">Jeffrey Epstein associates — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Part 3 Header -->
+  <div class="slide slide-section">
+    <div class="part-number">Part III</div>
+    <h2>Algorithmic Realism and Genomic AI</h2>
+    <div class="accent-line"></div>
+  </div>
+
+  <!-- SLIDE 10: AI -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part III · 3.1</div>
+    <h3>The End of Human Bias via Machine Learning</h3>
+    <ul>
+      <li><strong>Gradient descent has one objective:</strong> minimise prediction error. An AI trained on unconstrained data will identify the most statistically valid predictors of performance, creditworthiness, or risk — regardless of whether those predictors are politically acceptable.</li>
+      <li><strong>Data purity:</strong> Attempts to "debias" training data by normalising for group equity do not remove the underlying signal — they degrade predictive accuracy and produce models that perform worse for all groups while appearing fairer on audit metrics.</li>
+      <li><strong>Bayesian profiling:</strong> Statistical reasoning at the group level is the same cognitive operation whether performed by a human or an algorithm. The moral framing changes; the mathematics does not. Resource allocation optimised on base rates is rational by definition.</li>
+      <li><strong>The elderly white women paradox:</strong> It is statistically irrational to allocate investigative resources for violent crime and rape to low-probability demographics such as elderly females. Current policing practice does exactly this under equity mandates — a performative egalitarianism that wastes resources and degrades detection rates. An unconstrained AI eliminates this immediately, directing resources to high-probability profiles. This is not cruelty; it is arithmetic.</li>
+      <li><strong>Caveat:</strong> Group-level statistics do not eliminate individual-level false positive costs. Optimal profiling requires correct weighting of both base rates and misclassification costs — not simply using demographic predictors uncritically.</li>
+    </ul>
+    <div class="sources">Sources:
+      <a href="https://en.wikipedia.org/wiki/Predictive_policing" target="_blank">Predictive policing — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Algorithmic_bias" target="_blank">Algorithmic bias — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem" target="_blank">Bayes' theorem — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: GWAS -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part III · 3.2</div>
+    <h3>Polygenic Mapping — Beyond Psychometrics</h3>
+    <ul>
+      <li><strong>GWAS progression:</strong> Genome-Wide Association Studies have already identified thousands of SNPs associated with educational attainment and cognitive ability. Polygenic scores derived from these SNPs predict outcomes independently of socioeconomic variables.</li>
+      <li><strong>The 20th-century bottleneck:</strong> Psychometric tests were coarse proxies for underlying genomic architecture, limited by measurement technology. Direct base-pair frequency mapping bypasses this entirely.</li>
+      <li><strong>Convergence point:</strong> As polygenic score resolution increases, the genomic basis of inter-group cognitive differences will be quantifiable directly — making the current sociological debate empirically obsolete rather than merely epistemologically weak.</li>
+      <li><strong>Timeline:</strong> This is not speculative. Polygenic embryo selection for educational attainment is already commercially offered. The scientific infrastructure exists; only political constraints limit its application.</li>
+    </ul>
+    <div class="sources">Sources:
+      <a href="https://doi.org/10.1038/s41588-018-0147-3" target="_blank">Lee et al. — GWAS educational attainment, Nature Genetics (2018)</a>
+      <a href="https://doi.org/10.1038/nrg.2017.104" target="_blank">Plomin &amp; von Stumm — New genetics of intelligence, Nat. Rev. Genetics (2018)</a>
+      <a href="https://en.wikipedia.org/wiki/Polygenic_score" target="_blank">Polygenic score — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Preimplantation_genetic_testing" target="_blank">Polygenic embryo selection — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: Part 4 Header -->
+  <div class="slide slide-section">
+    <div class="part-number">Part IV</div>
+    <h2>Price's Law and the 10⁻⁴ Elite</h2>
+    <div class="accent-line"></div>
+  </div>
+
+  <!-- SLIDE 13: Price's Law stat -->
+  <div class="slide slide-stat">
+    <div class="big-number">√N</div>
+    <div class="big-label">generates 50% of all value</div>
+    <p class="stat-desc">In a society of 10⁸ people, the functional cognitive engine — the group responsible for innovation, institutional design, and civilisational direction — comprises approximately 10,000 individuals: the <span class="math">10⁻⁴</span> right tail. Price's Law is not a sociological opinion. It is a statistical regularity observed across scientific output, economic production, and military effectiveness.</p>
+    <div class="sources">Sources:
+      <a href="https://en.wikipedia.org/wiki/Price%27s_law" target="_blank">Price's Law — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Derek_J._de_Solla_Price" target="_blank">Derek J. de Solla Price — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Pareto_principle" target="_blank">Pareto principle — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 14: Tail distribution -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part IV · 4.2</div>
+    <h3>The Demographic Filter at the Extreme Right Tail</h3>
+    <ul>
+      <li><strong>The mathematics of σ displacement:</strong> At 4–5σ above the mean, a group with a mean 15 points (1σ) higher contributes exponentially more members. The representation ratio at 4σ between groups differing by 1σ in mean approaches 10:1 or higher.</li>
+      <li><strong>Mathematical exclusion:</strong> This is not discrimination — it is the direct consequence of normal distribution arithmetic. Groups with lower mean aptitude are not penalised; they are filtered by the shape of the curve.</li>
+      <li><strong>Diversity at the tail:</strong> Forcing proportional representation at 4–5σ by lowering the effective threshold does not increase elite-level output. It replaces a <span class="math">4σ</span> cohort with a <span class="math">3σ</span> cohort that is demographically representative but functionally degraded.</li>
+      <li><strong>Civilisational stakes:</strong> Because the <span class="math">10⁻⁴</span> elite drive the innovation trajectory of the entire civilisation, even marginal dilution of this cohort compounds over time into large divergences in technological and economic development.</li>
+    </ul>
+    <div class="sources">Sources:
+      <a href="https://en.wikipedia.org/wiki/Normal_distribution" target="_blank">Normal distribution — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Psychometric_g" target="_blank">Psychometric g — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Affirmative_action" target="_blank">Affirmative action — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE: IQ Distribution Plot -->
+  <div class="slide slide-imgtext">
+    <div class="img-panel">
+      <img src="iq_distribution.png" alt="IQ distribution plot">
+      <div class="img-caption">Fig. 1 — Normal distributions μ=85 and μ=100, σ=15. Log scale. Profession band IQ 130–160 shaded.</div>
+    </div>
+    <div class="text-panel">
+      <div class="slide-header">Part IV · Visual</div>
+      <h3>What the Plot Proves</h3>
+      <ul>
+        <li><strong>Blue and yellow curves</strong> are the two population IQ distributions — same standard deviation (σ=15), means separated by 15 points (1σ). On a linear scale the tails look identical. The log scale exposes the truth.</li>
+        <li><strong class="red">The red line</strong> is the density ratio Pop. B ÷ Pop. A at every IQ point. On a log axis it becomes a straight line — mathematically inevitable, because dividing two equal-σ Gaussians yields an exponential, and log(exponential) is linear.</li>
+        <li><strong>The slope of that red line</strong> is set entirely by the 15-point mean gap. A larger gap steepens the slope; a smaller gap flattens it. The gap is the only variable.</li>
+        <li><strong>At IQ 130</strong> (profession entry): Pop. B contributes <strong>17×</strong> more candidates per capita than Pop. A. At IQ 160 the ratio exceeds <strong>100×</strong>. This compounds with population size.</li>
+        <li><strong>No discrimination required.</strong> A perfectly meritocratic system applying a single IQ threshold produces this representation ratio as a direct arithmetic consequence of the mean difference. Equity interventions that override this are overriding mathematics.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SLIDE 15: Part 5 Header -->
+  <div class="slide slide-section">
+    <div class="part-number">Part V</div>
+    <h2>The Obsolescence of the Professional-Managerial Class</h2>
+    <div class="accent-line"></div>
+  </div>
+
+  <!-- SLIDE 16: Mid-wit -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part V · 5.1</div>
+    <h3>The 115–130 IQ Cohort — Rent-Seeking at Scale</h3>
+    <ul>
+      <li><strong>The structural position:</strong> The 115–130 IQ bracket possesses sufficient cognitive capacity to navigate institutional complexity, acquire credentials, and capture regulatory power — but falls short of the extreme <span class="math">g</span> required to generate paradigm-shifting output.</li>
+      <li><strong>Rent-seeking mechanism:</strong> This cohort survives by constructing administrative roles — compliance, DEI enforcement, middle management, regulatory frameworks — that extract value from both the productive elite above and the functional mass below without generating commensurate output.</li>
+      <li><strong>Counterpoint worth noting:</strong> This cohort also contains most skilled engineering, medicine, and technical execution. The critique applies most precisely to its bureaucratic and administrative sub-fraction, not to skilled practitioners within this range.</li>
+      <li><strong>AI disruption:</strong> Automation eliminates the administrative functions that currently justify this cohort's institutional capture. The genuinely skilled sub-fraction survives; the purely administrative fraction does not.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 17: Education -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part V · 5.2</div>
+    <h3>The Collapse of Traditional Education</h3>
+    <ul>
+      <li><strong>The filtering problem:</strong> Current educational systems optimise for the top 40–60% of ability — a threshold that is functionally irrelevant in a paradigm where societal direction is determined by the top 0.01%.</li>
+      <li><strong>Resource misallocation:</strong> Comprehensive humanistic education (classical literature, abstract mathematics, philosophy) delivered to the cognitive median is consumption, not investment. It produces graduates who cannot apply the content and occupies years that could be spent on vocational and practical competencies.</li>
+      <li><strong>The replacement filter:</strong> Genomic psychometric sorting will bypass credential systems entirely — identifying the <span class="math">10⁻⁴</span> elite at or before birth, routing resources to them, and substituting functional literacy and procedural numeracy for the mass.</li>
+      <li><strong>Bifurcated model:</strong> Elite track: unconstrained intellectual development for identified high-aptitude individuals. Mass track: competency in AI-directed task execution. The current unified model serves neither track optimally.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE: Uttl — College gatekeeping -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part V · 5.3</div>
+    <h3>The Collapse of the College Credential as a Cognitive Filter</h3>
+    <ul>
+      <li><strong>The decisive number — IQ 102:</strong> Uttl's research documents that the mean IQ of the current US college student population is approximately <strong>102</strong>. Against the raw population mean of 100 this looks marginally positive. It is not.</li>
+      <li><strong>The correct comparison — IQ 104–105:</strong> The relevant baseline is not the full population but the <em>college-eligible</em> population — those cognitively capable of benefiting from tertiary education, approximately IQ ≥ 85. Truncating the normal distribution at −1σ shifts the comparison mean to <strong>≈ 104–105</strong>. College students at IQ 102 fall <em>below</em> the mean of those who could have attended. The credential selects negatively within the eligible pool.</li>
+      <li><strong>Historical contrast:</strong> When college attendance was 5–10% of the population, the mean student IQ was well above 115 — genuine right-tail selection. The credential was a valid proxy for <span class="math">g</span>. Massification to 40–50% attendance dragged the threshold below the college-eligible mean, inverting the filter.</li>
+      <li><strong>What this means operationally:</strong> A random graduate is cognitively indistinguishable from — and by the corrected baseline slightly below — a random non-graduate from the same eligible pool. Any institution using the credential as a cognitive screen is not merely getting a weak signal. It is getting noise with negative drift.</li>
+      <li><strong>Grade inflation compounds the failure:</strong> Uttl's meta-analysis further shows that student evaluation scores are uncorrelated with learning outcomes — meaning the internal ranking signal within universities has also collapsed. Neither admission nor graduation nor grades carry the cognitive information they once did.</li>
+      <li><strong>The arms race consequence:</strong> Employers respond by inflating credential requirements — bachelor's → master's → PhD — for jobs with unchanged cognitive demands. This is pure administrative rent extraction, not improved talent identification. It enriches the credentialing bureaucracy at the cost of the productive economy.</li>
+    </ul>
+    <div class="sources">Sources:
+      <a href="https://scholar.google.com/scholar?q=Uttl+college+students+IQ+cognitive+ability+filter" target="_blank">Uttl — College student IQ ≈ 102, no longer a positive filter</a>
+      <a href="https://doi.org/10.1016/j.stueduc.2016.08.007" target="_blank">Uttl, White &amp; Gonzalez — SET ratings uncorrelated with learning, Studies in Ed. Evaluation (2017)</a>
+      <a href="https://en.wikipedia.org/wiki/Grade_inflation" target="_blank">Grade inflation — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Credential_inflation" target="_blank">Credential inflation — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 18: Part 6 Header -->
+  <div class="slide slide-section">
+    <div class="part-number">Part VI</div>
+    <h2>Restructuring Society for Optimal Efficiency and Purpose</h2>
+    <div class="accent-line"></div>
+  </div>
+
+  <!-- SLIDE 19: Cognitive hierarchy -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part VI · 6.1 – 6.3</div>
+    <h3>Hyper-Meritocracy in a Post-Scarcity Architecture</h3>
+    <ul>
+      <li><strong>Structural imperative:</strong> A society whose institutional architecture mirrors its cognitive distribution is not merely more efficient — it is more stable. Forcing equality of outcome onto a population with unequal cognitive distribution produces institutional dysfunction at every level.</li>
+      <li><strong>The elite incentive structure:</strong> In a post-scarcity environment where material wealth is abundant and automated, the genuine <span class="math">10⁻⁴</span> elite are not motivated by compensation but by the compulsion to solve hard problems. The incentive architecture should reflect this: autonomy, resources, and freedom from bureaucratic constraint.</li>
+      <li><strong>The role of the mass:</strong> In an automated economy, the primary contribution of the cognitive majority shifts from economic production to social reproduction — community cohesion, child-rearing, and maintenance of the population reservoir from which future elite cohorts emerge.</li>
+      <li><strong>Purpose as design:</strong> A stable society requires that every stratum have a legible and valued function. The post-equity model provides this by assigning complementary rather than competitive roles across the cognitive distribution.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE: Output/reward decoupling -->
+  <div class="slide slide-content">
+    <div class="slide-header">Part VI · 6.4</div>
+    <h3>The Decoupling of Output from Reward — and from Consumption</h3>
+    <ul>
+      <li><strong>The financial reward model is calibrated for median producers.</strong> It assumes consumption scales with contribution. At the extreme right tail this breaks down entirely. A person generating 10,000× the economic value of an average worker does not eat 10,000 meals, occupy 10,000 homes, or consume 10,000 lives' worth of resources. The output-to-consumption ratio at the tail is astronomically favourable to everyone else.</li>
+      <li><strong>Elite motivation is intrinsic, not financial.</strong> The <span class="math">10⁻⁴</span> are driven by agency, curiosity, legacy, and a sense of civilisational duty — not by marginal increases in net worth. Beyond a threshold of operational comfort, additional wealth is irrelevant to their output. Taxing or redistributing elite wealth does not change elite behaviour; it changes the allocation of already-produced surplus.</li>
+      <li><strong>The Musk inversion — output as public good:</strong> The standard critique of extreme wealth — that the rich "eat the bread of the poor" — inverts the actual causality at the tail. Elon Musk does not consume African resources. He deploys capital and cognitive output to provide infrastructure that raises African living standards: Starlink delivers broadband internet to rural and sub-Saharan Africa, providing access to education, markets, and global knowledge at negligible marginal cost per user. The knowledge transfer is the output; the wealth is the ledger entry, not the extraction.</li>
+      <li><strong>Starlink as proof of concept:</strong> A single elite initiative — conceived, funded, and executed by one cognitive outlier — provides more material benefit to more people in less time than decades of state-administered foreign aid programmes operating on the same budget. This is Price's Law made concrete: one person at the right tail outperforms the redistributive apparatus of entire governments.</li>
+      <li><strong>The correct framework:</strong> The question is not how to redistribute elite output but how to maximise it. Constraints on the elite — taxation, regulation, equity mandates, bureaucratic friction — reduce the total surplus available to everyone. Removing those constraints is not greed. It is the highest-leverage intervention available to a society that understands its own distribution.</li>
+    </ul>
+    <div class="sources">Sources:
+      <a href="https://en.wikipedia.org/wiki/Starlink" target="_blank">Starlink — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Elon_Musk" target="_blank">Elon Musk — Wikipedia</a>
+      <a href="https://en.wikipedia.org/wiki/Price%27s_law" target="_blank">Price's Law — Wikipedia</a>
+    </div>
+  </div>
+
+  <!-- SLIDE 20: Conclusion Header -->
+  <div class="slide slide-section">
+    <div class="part-number">Part VII</div>
+    <h2>Conclusion</h2>
+    <div class="accent-line"></div>
+  </div>
+
+  <!-- SLIDE 21: Conclusion -->
+  <div class="slide slide-conclusion">
+    <h2>The Synthesis</h2>
+    <ul class="thesis-points">
+      <li>Psychometric data establishing inter-group cognitive differences is valid, replicated, and consistent with physiological and genomic evidence.</li>
+      <li>High heritability (<span class="math">h = 0.80</span>) mathematically constrains the maximum environmental contribution to between-group gaps to <span class="math">0.60</span> — the genetic pathway necessarily dominates.</li>
+      <li>AI optimised for accuracy will validate genetic predictors of cognitive performance, rendering the blank-slate hypothesis empirically obsolete rather than merely philosophically contested.</li>
+      <li>Price's Law dictates that civilisational survival depends on the <span class="math">10⁻⁴</span> cognitive elite. Diluting this cohort via equity mandates produces compounding civilisational costs.</li>
+      <li>The equity framework is a late-20th-century political anomaly, not a scientific conclusion. Its institutional dominance reflects capture by the bureaucratic mid-tier, not evidential weight.</li>
+      <li>The correct societal architecture acknowledges biological distribution, routes resources accordingly, and assigns complementary functions across the cognitive spectrum.</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE: References -->
+  <div class="slide slide-refs">
+    <div class="refs-header">References &amp; Further Reading</div>
+    <div class="refs-columns">
+
+      <div class="refs-col">
+        <div class="refs-section">Psychometrics &amp; Hereditary Intelligence</div>
+        <ul>
+          <li>Lynn, R. &amp; Vanhanen, T. — <em>IQ and the Wealth of Nations</em> (2002) · <a href="https://en.wikipedia.org/wiki/IQ_and_the_Wealth_of_Nations" target="_blank">Wikipedia</a></li>
+          <li>Bouchard et al. — Minnesota twins reared apart · <em>Science</em> 250 (1990) · <a href="https://doi.org/10.1126/science.2218526" target="_blank">DOI</a></li>
+          <li>Plomin &amp; Deary — Genetics and intelligence · <em>Mol. Psychiatry</em> 20 (2015) · <a href="https://doi.org/10.1038/mp.2014.105" target="_blank">DOI</a></li>
+          <li>Plomin &amp; von Stumm — New genetics of intelligence · <em>Nat. Rev. Genet.</em> 19 (2018) · <a href="https://doi.org/10.1038/nrg.2017.104" target="_blank">DOI</a></li>
+          <li>Lee et al. — GWAS educational attainment · <em>Nature Genetics</em> 50 (2018) · <a href="https://doi.org/10.1038/s41588-018-0147-3" target="_blank">DOI</a></li>
+          <li>Minnesota Transracial Adoption Study · <a href="https://en.wikipedia.org/wiki/Minnesota_Transracial_Adoption_Study" target="_blank">Wikipedia</a></li>
+          <li>Frydman &amp; Lynn — Korean adoptees in Belgium · <em>Pers. Indiv. Diff.</em> 10 (1989) · <a href="https://doi.org/10.1016/0191-8869(89)90216-6" target="_blank">DOI</a></li>
+          <li>Heritability of IQ · <a href="https://en.wikipedia.org/wiki/Heritability_of_IQ" target="_blank">Wikipedia</a></li>
+          <li>Polygenic score · <a href="https://en.wikipedia.org/wiki/Polygenic_score" target="_blank">Wikipedia</a></li>
+          <li>Preimplantation genetic testing · <a href="https://en.wikipedia.org/wiki/Preimplantation_genetic_testing" target="_blank">Wikipedia</a></li>
+          <li>Psychometric <em>g</em> · <a href="https://en.wikipedia.org/wiki/G_factor_(psychometrics)" target="_blank">Wikipedia</a></li>
+        </ul>
+      </div>
+
+      <div class="refs-col">
+        <div class="refs-section">Epistemology &amp; Institutional Critique</div>
+        <ul>
+          <li>Adorno et al. — <em>The Authoritarian Personality</em> (1950) · <a href="https://en.wikipedia.org/wiki/The_Authoritarian_Personality" target="_blank">Wikipedia</a></li>
+          <li>Fromm, E. — <em>Escape from Freedom</em> (1941) · <a href="https://en.wikipedia.org/wiki/Erich_Fromm" target="_blank">Wikipedia</a></li>
+          <li>Frankfurt School · <a href="https://en.wikipedia.org/wiki/Frankfurt_School" target="_blank">Wikipedia</a></li>
+          <li>Michel Foucault · <a href="https://en.wikipedia.org/wiki/Michel_Foucault" target="_blank">Wikipedia</a></li>
+          <li>Jacques Derrida · <a href="https://en.wikipedia.org/wiki/Jacques_Derrida" target="_blank">Wikipedia</a></li>
+          <li>James Watson · <a href="https://en.wikipedia.org/wiki/James_Watson" target="_blank">Wikipedia</a></li>
+          <li>Jeffrey Epstein — associates · <a href="https://en.wikipedia.org/wiki/Jeffrey_Epstein" target="_blank">Wikipedia</a></li>
+        </ul>
+
+        <div class="refs-section" style="margin-top:14px;">Education &amp; Credentialism</div>
+        <ul>
+          <li>Uttl, White &amp; Gonzalez — SET ratings vs. learning · <em>Studies in Ed. Evaluation</em> 54 (2017) · <a href="https://doi.org/10.1016/j.stueduc.2016.08.007" target="_blank">DOI</a></li>
+          <li>Uttl — College student mean IQ ≈ 102 · <a href="https://scholar.google.com/scholar?q=Uttl+college+students+IQ+cognitive+ability" target="_blank">Google Scholar</a></li>
+          <li>Grade inflation · <a href="https://en.wikipedia.org/wiki/Grade_inflation" target="_blank">Wikipedia</a></li>
+          <li>Credential inflation · <a href="https://en.wikipedia.org/wiki/Credential_inflation" target="_blank">Wikipedia</a></li>
+        </ul>
+
+        <div class="refs-section" style="margin-top:14px;">Mathematics &amp; Distribution Theory</div>
+        <ul>
+          <li>Price's Law · <a href="https://en.wikipedia.org/wiki/Price%27s_law" target="_blank">Wikipedia</a></li>
+          <li>de Solla Price — <em>Little Science, Big Science</em> (1963) · <a href="https://en.wikipedia.org/wiki/Derek_J._de_Solla_Price" target="_blank">Wikipedia</a></li>
+          <li>Normal distribution · <a href="https://en.wikipedia.org/wiki/Normal_distribution" target="_blank">Wikipedia</a></li>
+          <li>Pareto principle · <a href="https://en.wikipedia.org/wiki/Pareto_principle" target="_blank">Wikipedia</a></li>
+          <li>Bayes' theorem · <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem" target="_blank">Wikipedia</a></li>
+          <li>Predictive policing · <a href="https://en.wikipedia.org/wiki/Predictive_policing" target="_blank">Wikipedia</a></li>
+          <li>Affirmative action · <a href="https://en.wikipedia.org/wiki/Affirmative_action" target="_blank">Wikipedia</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div id="nav">
+  <button id="prev-btn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <div id="progress"></div>
+  <span id="slide-counter">1 / 22</span>
+  <button id="next-btn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('slide-counter');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+
+  // Build progress dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    progress.appendChild(dot);
+  }
+
+  function goTo(n) {
+    if (n < 0 || n >= total || n === current) return;
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    setTimeout(() => slides[current === n ? current : current].classList.remove('exit'), 450);
+    const prev = current;
+    current = n;
+    slides[current].classList.add('active');
+    setTimeout(() => slides[prev].classList.remove('exit'), 450);
+
+    document.querySelectorAll('.progress-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+    counter.textContent = `${current + 1} / ${total}`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+
+  function changeSlide(dir) { goTo(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) changeSlide(dx < 0 ? 1 : -1);
+  });
+</script>
+</body>
+</html>
