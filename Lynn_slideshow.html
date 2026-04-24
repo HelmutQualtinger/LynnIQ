@@ -535,7 +535,7 @@
   .refs-col ul li {
     font-size: 0.72rem;
     line-height: 1.9;
-    color: #b0aca0;
+    color: #ccc8bc;
     font-family: 'Courier New', monospace;
     padding-left: 10px;
     position: relative;
@@ -569,7 +569,7 @@
     padding-top: 10px;
     border-top: 1px solid #1c1c26;
     font-size: 0.7rem;
-    color: #4a4a5a;
+    color: #9090a0;
     font-family: 'Courier New', monospace;
     line-height: 2;
     width: 100%;
@@ -577,7 +577,7 @@
   }
 
   .sources a {
-    color: #6a5828;
+    color: #b08535;
     text-decoration: none;
     margin-right: 16px;
     white-space: nowrap;
@@ -782,6 +782,113 @@
     .sources { font-size: 0.65rem; }
     .refs-col ul li { font-size: 0.68rem; }
   }
+
+  /* title accent line (overrides inline style) */
+  .title-accent-line { background: #c9a84c44; }
+
+  /* ── Theme toggle button ── */
+  #theme-toggle {
+    background: none;
+    border: 1px solid #333;
+    color: #888;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  #theme-toggle:hover { border-color: #c9a84c; color: #c9a84c; }
+
+  /* ── Light theme ── */
+  body.light { background: #f4efe3; color: #1c1710; }
+
+  body.light .slide-title  { background: radial-gradient(ellipse at 30% 40%, #ddd5c0 0%, #f4efe3 70%); }
+  body.light .slide-section { background: linear-gradient(135deg, #e8e2d0 0%, #f4efe3 100%); }
+  body.light .slide-content { background: #f4efe3; }
+  body.light .slide-stat    { background: radial-gradient(ellipse at 60% 50%, #e0d8c5 0%, #f4efe3 80%); }
+  body.light .slide-quote   { background: linear-gradient(135deg, #e8e2d0 0%, #f4efe3 100%); }
+  body.light .slide-twocol  { background: #f4efe3; }
+  body.light .slide-proof   { background: #f4efe3; }
+  body.light .slide-conclusion { background: radial-gradient(ellipse at 50% 50%, #e8e2c8 0%, #f4efe3 70%); }
+  body.light .slide-imgtext { background: #f0ebe0; }
+  body.light .slide-refs    { background: #f4efe3; }
+
+  body.light .slide-title .dossier-label { color: #5c3c00; }
+  body.light .slide-title h1            { color: #1c1710; }
+  body.light .slide-title h1 em         { color: #7a5000; }
+  body.light .slide-title .subtitle     { color: #5a5550; }
+  body.light .title-accent-line         { background: rgba(122,80,0,0.22); }
+
+  body.light .slide-section .part-number { color: #7a5000; }
+  body.light .slide-section h2           { color: #1c1710; }
+  body.light .slide-section .accent-line { background: #7a5000; }
+
+  body.light .slide-content .slide-header     { color: #7a5000; }
+  body.light .slide-content h3                { color: #1c1710; }
+  body.light .slide-content ul li             { color: #3c3530; border-bottom-color: #d8d2c2; }
+  body.light .slide-content ul li::before     { color: #7a5000; }
+  body.light .slide-content ul li strong      { color: #1c1710; }
+
+  body.light .math { color: #7a5000; background: #ebe5d5; }
+
+  body.light .slide-stat .big-number { color: #7a5000; }
+  body.light .slide-stat .big-label  { color: #5a5550; }
+  body.light .slide-stat .stat-desc  { color: #3c3530; }
+
+  body.light .slide-quote blockquote        { color: #1c1710; }
+  body.light .slide-quote blockquote::before { color: #7a5000; }
+  body.light .slide-quote .attribution      { color: #7a5000; }
+
+  body.light .slide-twocol h3                { color: #1c1710; }
+  body.light .slide-twocol .col-title        { color: #7a5000; border-bottom-color: rgba(122,80,0,0.22); }
+  body.light .slide-twocol .col p            { color: #3c3530; }
+  body.light .slide-twocol .col p strong     { color: #1c1710; }
+
+  body.light .proof-box            { background: #ebe5d5; border-color: #c8c0b0; border-left-color: #7a5000; color: #1c1710; }
+  body.light .proof-box .proof-result { color: #7a5000; border-top-color: #c8c0b0; }
+  body.light .proof-conclusion      { color: #5a5550; }
+
+  body.light .slide-conclusion h2                  { color: #1c1710; }
+  body.light .slide-conclusion .thesis-points li   { color: #3c3530; }
+  body.light .slide-conclusion .thesis-points li::before { color: #7a5000; }
+
+  body.light .slide-imgtext .img-caption            { color: #888; }
+  body.light .slide-imgtext .text-panel .slide-header { color: #7a5000; }
+  body.light .slide-imgtext .text-panel h3           { color: #1c1710; }
+  body.light .slide-imgtext .text-panel ul li        { color: #3c3530; border-bottom-color: #d8d2c2; }
+  body.light .slide-imgtext .text-panel ul li::before { color: #7a5000; }
+  body.light .slide-imgtext .text-panel ul li strong { color: #1c1710; }
+  body.light .slide-imgtext .img-panel img           { border-color: #c8c0b0; }
+
+  body.light .refs-header     { color: #1c1710; border-bottom-color: rgba(122,80,0,0.22); }
+  body.light .refs-section    { color: #7a5000; border-bottom-color: #c8c0a8; }
+  body.light .refs-col ul li  { color: #3c3530; }
+  body.light .refs-col ul li::before { color: #7a5000; }
+  body.light .refs-col ul li em      { color: #1c1710; }
+  body.light .refs-col ul li a       { color: #7a5000; }
+  body.light .refs-col ul li a:hover { color: #5a3800; text-decoration: underline; }
+
+  body.light .sources       { color: #6a6460; border-top-color: #d8d2c2; }
+  body.light .sources a     { color: #7a5000; }
+  body.light .sources a:hover { color: #5a3800; }
+
+  body.light #nav { background: linear-gradient(transparent, #f4efe3); }
+  body.light #nav button         { border-color: #c0b8a8; color: #5a5550; }
+  body.light #nav button:hover   { border-color: #7a5000; color: #7a5000; }
+  body.light #nav button:disabled { border-color: #e0d8c8; color: #c0b8a8; opacity: 1; }
+  body.light #theme-toggle       { border-color: #c0b8a8; color: #5a5550; }
+  body.light #theme-toggle:hover { border-color: #7a5000; color: #7a5000; }
+
+  body.light .progress-dot        { background: #c0b8a8; }
+  body.light .progress-dot.active { background: #7a5000; }
+  body.light #slide-counter       { color: #888; }
+
+  body.light .slide::before,
+  body.light .slide::after  { border-color: #d8d2c2; }
+
+  body.light kbd { background: #e8e2d0; border-color: #c8c0b0; color: #888; }
+  body.light .red { color: #cc2222; }
 </style>
 </head>
 <body>
@@ -791,7 +898,7 @@
   <div class="slide slide-title active">
     <div class="dossier-label">Dossier &nbsp;·&nbsp; Restricted</div>
     <h1>Cognitive Stratification,<br><em>Genomic AI</em>, and the<br>Post-Equity Society</h1>
-    <div class="accent-line" style="width:80px;height:2px;background:#c9a84c44;margin:28px auto;"></div>
+    <div class="accent-line title-accent-line" style="width:80px;height:2px;margin:28px auto;"></div>
     <div class="subtitle">A Hereditarian Framework &nbsp;·&nbsp; After Richard Lynn &amp; Tatu Vanhanen</div>
     <div style="margin-top:48px;font-size:11px;color:#333;font-family:'Courier New',monospace;">
       Use <kbd>←</kbd> <kbd>→</kbd> or buttons below to navigate
@@ -1201,6 +1308,7 @@
   <div id="progress"></div>
   <span id="slide-counter">1 / 22</span>
   <button id="next-btn" onclick="changeSlide(1)">Next →</button>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light / dark theme">◐</button>
 </div>
 
 <script>
@@ -1244,6 +1352,14 @@
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') changeSlide(1);
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
   });
+
+  function toggleTheme() {
+    const light = document.body.classList.toggle('light');
+    localStorage.setItem('lynniq-theme', light ? 'light' : 'dark');
+  }
+  if (localStorage.getItem('lynniq-theme') === 'light') {
+    document.body.classList.add('light');
+  }
 
   // Touch/swipe support
   let touchStartX = 0;
