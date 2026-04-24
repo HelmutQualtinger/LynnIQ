@@ -786,28 +786,23 @@
   /* title accent line (overrides inline style) */
   .title-accent-line { background: #c9a84c44; }
 
-  /* ── Theme switcher ── */
-  #theme-switcher {
-    display: flex;
-    border: 1px solid #333;
-    border-radius: 2px;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  #theme-switcher button {
+  /* ── Theme toggle ── */
+  #theme-toggle {
     background: none;
     border: none;
-    border-left: 1px solid #333;
-    color: #666;
-    padding: 5px 10px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 24px;
     line-height: 1;
-    transition: all 0.2s;
+    padding: 2px 6px;
+    color: #c9a84c;
+    text-shadow: 0 0 8px #c9a84c, 0 0 2px #c9a84c;
+    transition: transform 0.2s, text-shadow 0.2s;
+    flex-shrink: 0;
   }
-  #theme-switcher button:first-child { border-left: none; }
-  #theme-switcher button:hover { color: #c9a84c; }
-  #theme-switcher button.active { background: rgba(201,168,76,0.12); color: #c9a84c; }
+  #theme-toggle:hover {
+    transform: scale(1.25);
+    text-shadow: 0 0 14px #f0d060, 0 0 4px #c9a84c;
+  }
 
   /* ── Light theme ── */
   body.light { background: #f4efe3; color: #1c1710; }
@@ -886,10 +881,13 @@
   body.light #nav button         { border-color: #c0b8a8; color: #5a5550; }
   body.light #nav button:hover   { border-color: #7a5000; color: #7a5000; }
   body.light #nav button:disabled { border-color: #e0d8c8; color: #c0b8a8; opacity: 1; }
-  body.light #theme-switcher                { border-color: #c0b8a8; }
-  body.light #theme-switcher button         { border-left-color: #c0b8a8; color: #888; }
-  body.light #theme-switcher button:hover   { color: #7a5000; }
-  body.light #theme-switcher button.active  { background: rgba(122,80,0,0.10); color: #7a5000; }
+  body.light #theme-toggle {
+    color: #7a5000;
+    text-shadow: 0 0 6px rgba(122,80,0,0.5), 0 0 2px rgba(122,80,0,0.3);
+  }
+  body.light #theme-toggle:hover {
+    text-shadow: 0 0 12px rgba(122,80,0,0.7), 0 0 4px rgba(122,80,0,0.5);
+  }
 
   body.light .progress-dot        { background: #c0b8a8; }
   body.light .progress-dot.active { background: #7a5000; }
@@ -1319,10 +1317,7 @@
   <div id="progress"></div>
   <span id="slide-counter">1 / 22</span>
   <button id="next-btn" onclick="changeSlide(1)">Next →</button>
-  <div id="theme-switcher">
-    <button id="btn-dark"  onclick="setTheme('dark')"  title="Dark theme">☾</button>
-    <button id="btn-light" onclick="setTheme('light')" title="Light theme">☀</button>
-  </div>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Toggle theme"></button>
 </div>
 
 <script>
@@ -1369,9 +1364,11 @@
 
   function setTheme(mode) {
     document.body.classList.toggle('light', mode === 'light');
-    document.getElementById('btn-dark').classList.toggle('active', mode === 'dark');
-    document.getElementById('btn-light').classList.toggle('active', mode === 'light');
+    document.getElementById('theme-toggle').textContent = mode === 'light' ? '☾' : '☀';
     localStorage.setItem('lynniq-theme', mode);
+  }
+  function toggleTheme() {
+    setTheme(document.body.classList.contains('light') ? 'dark' : 'light');
   }
   const saved = localStorage.getItem('lynniq-theme');
   const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
