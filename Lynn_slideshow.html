@@ -799,14 +799,11 @@
     border: none;
     border-left: 1px solid #333;
     color: #666;
-    padding: 7px 11px;
+    padding: 5px 10px;
     cursor: pointer;
-    font-family: 'Courier New', monospace;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    transition: all 0.2s;
+    font-size: 16px;
     line-height: 1;
+    transition: all 0.2s;
   }
   #theme-switcher button:first-child { border-left: none; }
   #theme-switcher button:hover { color: #c9a84c; }
@@ -1323,8 +1320,8 @@
   <span id="slide-counter">1 / 22</span>
   <button id="next-btn" onclick="changeSlide(1)">Next →</button>
   <div id="theme-switcher">
-    <button id="btn-dark"  onclick="setTheme('dark')">Dark</button>
-    <button id="btn-light" onclick="setTheme('light')">Light</button>
+    <button id="btn-dark"  onclick="setTheme('dark')"  title="Dark theme">☾</button>
+    <button id="btn-light" onclick="setTheme('light')" title="Light theme">☀</button>
   </div>
 </div>
 
