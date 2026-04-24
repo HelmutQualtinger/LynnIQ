@@ -700,6 +700,88 @@
     border-radius: 3px;
     color: #666;
   }
+
+  /* ── Mobile responsive ── */
+  @media (max-width: 768px) {
+    .slide {
+      padding: 44px 20px 76px;
+      overflow-y: auto;
+      justify-content: flex-start;
+    }
+
+    .slide-title {
+      justify-content: center;
+    }
+
+    .slide-title h1 { font-size: 1.75rem; }
+    .slide-section h2 { font-size: 1.4rem; }
+    .slide-content h3 { font-size: 1.2rem; }
+    .slide-content ul li { font-size: 0.95rem; }
+
+    .slide-stat .big-number { font-size: 4rem; }
+    .slide-stat .stat-desc { font-size: 0.95rem; }
+
+    .slide-quote blockquote { font-size: 1.1rem; }
+
+    .slide-twocol .col-container {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .slide-twocol { align-items: flex-start; justify-content: flex-start; }
+    .slide-twocol h3 { font-size: 1.2rem; margin-bottom: 16px; }
+
+    .slide-imgtext {
+      flex-direction: column;
+      padding: 44px 20px 76px;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .slide-imgtext .img-panel,
+    .slide-imgtext .text-panel { flex: none; width: 100%; }
+
+    .proof-box {
+      padding: 16px 18px;
+      font-size: 0.85rem;
+      line-height: 1.9;
+    }
+    .proof-box .proof-line { gap: 12px; }
+
+    .slide-refs { padding: 44px 20px 76px; }
+    .refs-columns { flex-direction: column; gap: 20px; }
+
+    .slide-conclusion h2 { font-size: 1.4rem; }
+
+    #nav { padding: 12px 16px; }
+    #nav button { padding: 6px 14px; font-size: 10px; letter-spacing: 1px; }
+
+    #progress { gap: 4px; }
+    .progress-dot { width: 4px; height: 4px; }
+    .progress-dot.active { width: 14px; }
+
+    .slide::before, .slide::after { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .slide { padding: 36px 14px 68px; }
+    .slide-imgtext { padding: 36px 14px 68px; }
+    .slide-refs { padding: 36px 14px 68px; }
+
+    .slide-title h1 { font-size: 1.4rem; }
+    .slide-section h2 { font-size: 1.2rem; }
+    .slide-content h3 { font-size: 1.1rem; margin-bottom: 16px; }
+
+    .slide-stat .big-number { font-size: 3rem; }
+
+    .proof-box { padding: 12px 14px; font-size: 0.78rem; }
+    .proof-box .proof-line { flex-direction: column; gap: 0; }
+
+    #progress { display: none; }
+    #slide-counter { font-size: 11px; color: #666; }
+
+    .sources { font-size: 0.65rem; }
+    .refs-col ul li { font-size: 0.68rem; }
+  }
 </style>
 </head>
 <body>
